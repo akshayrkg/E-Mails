@@ -39,12 +39,9 @@ while i<howmany:
         start=row1[0]
     start=start+1
     baseurl=url+str(start)+'/'+str(start+1)
-    #print('before try',baseurl)
     try:
-        #print('after try',baseurl)
         urlhand=urllib.request.urlopen(baseurl,None,5,context=ctx)
         data=urlhand.read().decode()
-        #sender=re.findall('From: "(.+?)"',data)
         if urlhand.getcode() != 200 :
             print("Error code=",document.getcode(), url)
             break
@@ -53,7 +50,6 @@ while i<howmany:
         break
     except Exception as e:
         print('Error Desc',e)
-        #print('after exception',baseurl)
         continue
     email=re.findall('From: .*<(\S*@\S*)>',data)
     print(email)
@@ -62,7 +58,6 @@ while i<howmany:
     INSERT OR IGNORE INTO eid (email) VALUES (?)''',(email[0],))
 
     subject=re.findall('Subject: (.*)\n',data)
-    #body=re.findall('\n\n(.*)\n',data)----Use indexing for exrtracting a paragraph
     bodypos=data.find('\n\n')
     header=data[:bodypos]
     body=data[bodypos+2:]
