@@ -3,15 +3,19 @@ import sqlite3
 import ssl
 import re
 
+#taking care of certification errors
 ctx = ssl.create_default_context()
 ctx.check_hostname = False
 ctx.verify_mode = ssl.CERT_NONE
 
 url="http://mbox.dr-chuck.net/sakai.devel/"
 start=0
+
+#connecting to database
 conn=sqlite3.connect('mymail.db')
 cur=conn.cursor()
 
+#modelling data
 cur.execute('''CREATE TABLE IF NOT EXISTS MAIL(
 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,email_id INTEGER, subject TEXT, header TEXT,
  body TEXT)''')
@@ -31,7 +35,7 @@ while True:
             quit()
 i=0
 while i<howmany:
-    cur.execute('''SELECT max(id) FROM MAIL''')
+    cur.execute('''SELECT max(id) FROM MAIL''')          #checking to continue from last mail
     row1=cur.fetchone()
     if row1[0] == None:
         start=0
