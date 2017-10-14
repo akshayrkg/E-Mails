@@ -1,2 +1,1 @@
-# Mailing-List
-downloading,storing and cleaning emails
+Spidering and Modelling Email data
