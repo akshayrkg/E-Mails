@@ -55,8 +55,12 @@ while i<howmany:
     except Exception as e:
         print('Error Desc',e)
         continue
-    email=re.findall('From: .*<(\S*@\S*)>',data)
-    print(email)
+    try:
+        email=re.findall('From: .*<(\S*@\S*)>',data)
+        print(email[0])    
+    except:
+        email=re.findall('From: (\S*@\S*)\s',data)
+        print(email[0])
 
     cur.execute('''
     INSERT OR IGNORE INTO eid (email) VALUES (?)''',(email[0],))
